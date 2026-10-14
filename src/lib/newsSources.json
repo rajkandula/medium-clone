@@ -1,0 +1,149 @@
+[
+  {
+    "name": "Hacker News Best",
+    "url": "https://hnrss.org/best",
+    "icon": "🟧",
+    "category": "General Tech",
+    "trustScore": 9
+  },
+  {
+    "name": "web.dev",
+    "url": "https://web.dev/feed.xml",
+    "icon": "🌐",
+    "category": "Web Dev",
+    "trustScore": 9
+  },
+  {
+    "name": "CSS-Tricks",
+    "url": "https://css-tricks.com/feed/",
+    "icon": "🎨",
+    "category": "Web Dev",
+    "trustScore": 9
+  },
+  {
+    "name": "Smashing Magazine",
+    "url": "https://www.smashingmagazine.com/feed/",
+    "icon": "📕",
+    "category": "Design",
+    "trustScore": 9
+  },
+  {
+    "name": "Dev.to",
+    "url": "https://dev.to/feed",
+    "icon": "👩‍💻",
+    "category": "Dev Community",
+    "trustScore": 7
+  },
+  {
+    "name": "MIT Technology Review",
+    "url": "https://www.technologyreview.com/feed/",
+    "icon": "🔬",
+    "category": "AI / Science",
+    "trustScore": 9
+  },
+  {
+    "name": "A List Apart",
+    "url": "https://alistapart.com/main/feed/",
+    "icon": "📐",
+    "category": "Web Dev",
+    "trustScore": 9
+  },
+  {
+    "name": "Edutopia",
+    "url": "https://www.edutopia.org/rss.xml",
+    "icon": "🎓",
+    "category": "Education",
+    "trustScore": 9
+  },
+  {
+    "name": "NPR Education",
+    "url": "https://www.npr.org/rss/rss.php?id=1013",
+    "icon": "🎙️",
+    "category": "Education & Policy",
+    "trustScore": 9
+  },
+  {
+    "name": "Scientific American",
+    "url": "https://rss.sciam.com/ScientificAmerican-Global",
+    "icon": "🧬",
+    "category": "Science",
+    "trustScore": 9
+  },
+  {
+    "name": "Harvard Health",
+    "url": "https://www.health.harvard.edu/blog/feed",
+    "icon": "🏥",
+    "category": "Medical",
+    "trustScore": 9
+  },
+  {
+    "name": "Health.com",
+    "url": "https://www.health.com/rss",
+    "icon": "❤️",
+    "category": "Health & Fitness",
+    "trustScore": 8
+  },
+  {
+    "name": "The Conversation",
+    "url": "https://theconversation.com/us/articles.atom",
+    "icon": "🎓",
+    "category": "Expert Analysis",
+    "trustScore": 9
+  },
+  {
+    "name": "Quanta Magazine",
+    "url": "https://api.quantamagazine.org/feed/",
+    "icon": "🔢",
+    "category": "Science & Math",
+    "trustScore": 10
+  },
+  {
+    "name": "Aeon",
+    "url": "https://aeon.co/feed.rss",
+    "icon": "💭",
+    "category": "Ideas & Philosophy",
+    "trustScore": 9
+  },
+  {
+    "name": "Big Think",
+    "url": "https://bigthink.com/feed/",
+    "icon": "🧠",
+    "category": "Big Ideas",
+    "trustScore": 8
+  },
+  {
+    "name": "ScienceDaily",
+    "url": "https://www.sciencedaily.com/rss/all.xml",
+    "icon": "🔬",
+    "category": "Science",
+    "trustScore": 8
+  },
+  {
+    "name": "NASA",
+    "url": "https://www.nasa.gov/feed/",
+    "icon": "🚀",
+    "category": "Space & Astronomy",
+    "trustScore": 10
+  },
+  {
+    "name": "Farnam Street",
+    "url": "https://fs.blog/feed/",
+    "icon": "📚",
+    "category": "Learning & Thinking",
+    "trustScore": 9
+  },
+  {
+    "name": "Open Culture",
+    "url": "https://www.openculture.com/feed",
+    "icon": "🎭",
+    "category": "Culture & Education",
+    "trustScore": 8
+  },
+  {
+    "name": "A Wealth of Common Sense",
+    "url": "https://awealthofcommonsense.com/feed/",
+    "icon": "💰",
+    "category": "Personal Finance",
+    "trustScore": 8
+  }
+]

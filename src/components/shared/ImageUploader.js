@@ -23,9 +23,11 @@ export default function ImageUploader({ onUpload, currentImage, folder = 'upload
       const presignRes = await fetch('/api/upload/presign', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ filename: file.name, contentType: file.type, folder }),
+        body: JSON.stringify({ filename: file.name, contentType: file.type, folder, size: file.size }),
       });
-      const { uploadUrl, publicUrl } = await presignRes.json();
+      const presigned = await presignRes.json();
+      if (!presignRes.ok) throw new Error(presigned.error || 'Upload refused');
+      const { uploadUrl, publicUrl } = presigned;
 
       if (!uploadUrl) {
         // Fallback: use the local preview as the URL (no storage bucket configured)

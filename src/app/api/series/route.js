@@ -23,6 +23,14 @@ export async function GET(req) {
     if (level) filter.level = level;
     if (tag) filter.tags = tag;
 
+    // Only published series are public; others are listed for their author
+    // (or an admin).
+    if (status !== 'published') {
+      const viewer = await getSession();
+      if (!viewer) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      if (viewer.role !== 'admin') filter.author = viewer.userId;
+    }
+
     const skip = (page - 1) * limit;
     const [series, total] = await Promise.all([
       Series.find(filter)

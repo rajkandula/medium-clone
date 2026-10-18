@@ -26,6 +26,16 @@ export async function GET(req, { params }) {
 
     if (!post) return NextResponse.json({ error: 'Post not found' }, { status: 404 });
 
+    // Unpublished posts are visible to their author and admins only; to
+    // everyone else they do not exist.
+    if (post.status !== 'published') {
+      const viewer = await getSession();
+      const authorId = (post.author?._id || post.author)?.toString();
+      if (!viewer || (viewer.role !== 'admin' && viewer.userId !== authorId)) {
+        return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+      }
+    }
+
     // Increment view count
     await Post.findByIdAndUpdate(post._id, { $inc: { viewCount: 1 } });
 

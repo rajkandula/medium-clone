@@ -3,6 +3,7 @@ import dbConnect from '@/lib/db';
 import ContactMessage from '@/models/ContactMessage';
 import Notification from '@/models/Notification';
 import User from '@/models/User';
+import { enforceRateLimit, getClientIp } from '@/lib/rateLimit';
 
 /**
  * POST /api/contact
@@ -11,6 +12,14 @@ import User from '@/models/User';
  */
 export async function POST(req) {
   try {
+    const limited = await enforceRateLimit(NextResponse, {
+      key: `contact:${getClientIp(req)}`,
+      limit: 5,
+      windowMs: 60 * 60 * 1000,
+      message: 'Too many messages. Please try again later.',
+    });
+    if (limited) return limited;
+
     await dbConnect();
     const body = await req.json();
     const { recipientId, senderName, senderEmail, subject, message } = body;

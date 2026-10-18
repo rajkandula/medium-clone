@@ -28,7 +28,8 @@ export async function POST(req) {
     const user = await User.findOne({
       $or: [
         { email: identifier.toLowerCase() },
-        { username: { $regex: new RegExp(`^${identifier}$`, 'i') } }
+        // Escaped so the typed username is matched literally, never run as a pattern.
+        { username: { $regex: new RegExp(`^${String(identifier).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') } }
       ]
     });
 

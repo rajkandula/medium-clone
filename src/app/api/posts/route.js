@@ -30,6 +30,19 @@ export async function GET(req) {
     if (category) filter.category = category;
     if (tag) filter.tags = tag;
     if (author) filter.author = author;
+
+    // Only published posts are public. Drafts and archived posts are listed
+    // for their own author (or an admin), never for anyone else.
+    if (status !== 'published') {
+      const viewer = await getSession();
+      if (!viewer) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      if (viewer.role !== 'admin') {
+        if (author && author !== viewer.userId) {
+          return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+        }
+        filter.author = viewer.userId;
+      }
+    }
     if (collection) filter.collections = collection;
 
     let sortObj = { publishedAt: -1 };

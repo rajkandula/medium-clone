@@ -26,6 +26,15 @@ export async function GET(req, { params }) {
 
     if (!series) return NextResponse.json({ error: 'Series not found' }, { status: 404 });
 
+    // Unpublished series are visible to their author and admins only.
+    if (series.status !== 'published') {
+      const viewer = await getSession();
+      const authorId = (series.author?._id || series.author)?.toString();
+      if (!viewer || (viewer.role !== 'admin' && viewer.userId !== authorId)) {
+        return NextResponse.json({ error: 'Series not found' }, { status: 404 });
+      }
+    }
+
     // Drop unpublished/deleted lessons (populate match -> null), keep order.
     series.posts = (series.posts || []).filter(Boolean);
 

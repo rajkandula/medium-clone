@@ -178,8 +178,11 @@ not used.
 
 ### Images
 
-1. The browser asks `POST /api/upload/presign` for a key under the chosen folder and a
-   presigned PUT URL valid for one hour, then uploads the file straight to the bucket.
+1. The browser asks `POST /api/upload/presign` for a presigned PUT URL valid for one hour,
+   sending the file's type and size, then uploads the file straight to the bucket. Only
+   PNG, JPEG, WebP, GIF and AVIF images up to 10 MB are accepted (no SVG), the size is
+   signed into the URL, and the key is always `<folder>/<user id>/<random>.<ext>`, where
+   the folder comes from a fixed list and the extension from the checked type.
 2. Without a bucket the presign call returns no URL and the uploader keeps the local
    preview. Server-side uploads (`POST /api/upload`, AI covers) store images up to 2 MB as
    `data:` URLs and fail above that.
@@ -323,6 +326,9 @@ Admins are made at sign-up from `ADMIN_EMAILS` (empty by default) or by another 
 | Pinned posts | 3 | `src/app/api/posts/[id]/pin/route.js` |
 | Page sizes | posts and feed max 50; MCP `list_posts` max 50 | routes |
 | Presigned upload | 1 hour | `src/lib/upload.js` |
+| Uploaded image | PNG, JPEG, WebP, GIF or AVIF, 10 MB | `src/lib/upload.js` (`checkUpload`) |
+| Contact form | 5 messages per IP per hour | `src/app/api/contact/route.js` |
+| Favicon lookup | public addresses only, 3 redirects, 1 MB page | `src/app/api/favicon/route.js` |
 | Inline image fallback | 2 MB | `src/lib/upload.js` |
 | Generated per run | at most 8 blog posts and 3 startup concepts | `src/app/api/cron/generate-posts/route.js` |
 | Function duration hints | 30 s co-writer, 60 s co-writer image, 300 s for `generate-topics`, `generate-posts`, `generate-series` and the two admin generators | `export const maxDuration` |
@@ -357,6 +363,16 @@ storage, AI calls, analytics per plan) is not enforced anywhere.
 
 ## Security
 
+- Drafts: only published posts and series are public. `GET /api/posts` and
+  `GET /api/series` list other statuses only for their author (admins see all), and
+  `GET /api/posts/[id]` and `GET /api/series/[id]` answer 404 for an unpublished item
+  unless the caller is its author or an admin.
+- Outbound fetches: `/api/favicon` fetches only public addresses on ports 80 and 443
+  (no loopback, private, link-local or metadata addresses, IPv4-mapped forms included),
+  re-checks every redirect (at most 3) and reads at most 1 MB.
+- Uploads: images only (PNG, JPEG, WebP, GIF, AVIF; no SVG), 10 MB, stored under a fixed
+  folder and the uploader's user id; presigned URLs carry the signed size.
+- Login: the username is escaped before it is matched, so it is never run as a pattern.
 - Passwords: bcrypt cost 12; generic "invalid username/email or password" message; the
   reset flow does not reveal whether an email exists.
 - Sessions: HS256 JWT in an httpOnly, `SameSite=Lax` cookie (`Secure` in production);
